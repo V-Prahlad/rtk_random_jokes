@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import { useGetUserQuery } from './redux/rtk';
 import './App.css';
 
 function App() {
+  const { data, error, isLoading, isSuccess, refetch } = useGetUserQuery();
+
+  const handleClick = () => {
+    refetch();
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      {isLoading && <h1>... Loading Data</h1>}
+      {error && <h1>.. Error</h1>}
+      {isSuccess && (
+        <div className="joke">
+          <span>{data?.value}</span>
+        </div>
+      )}
+      <button onClick={handleClick}>Next Joke</button>
     </div>
   );
 }
